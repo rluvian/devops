@@ -1,0 +1,43 @@
+version: '3'
+
+services:
+  nodejs:
+    build: ./Node
+    image: rluvian/node:15
+    container_name: node
+    volumes:
+      - ./Node:/usr/src/app
+    networks:
+      - minha-rede
+    ports:
+      - "3000:3000"
+    tty: true
+
+
+  nginx:
+    build: ./nginx
+    container_name: nginx
+    networks:
+      - minha-rede
+    ports:
+      - "8080:80"
+
+  mysql:
+    image: mysql:5.7
+    command: --innodb-use-native-aio=0
+    container_name: db
+    restart: always
+    tty: true
+    volumes:
+      - ./Arquivos:/var/lib/mysql
+    networks:
+      - minha-rede
+
+    environment:
+      - MYSQL_DATABASE=nodedb
+      - MYSQL_ROOT_PASSWORD=root
+      - MYSQL_USER=root
+
+networks:
+  minha-rede:
+    driver: bridge
