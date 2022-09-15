@@ -1,0 +1,10 @@
+version: '3'
+
+services:
+  Go:
+    build: .
+    image: rluvian/golang:1.18
+    container_name: Go
+    volumes:
+      - ./Arquivos:/usr/src/go
+    tty: true
